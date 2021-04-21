@@ -54,3 +54,25 @@ You can find it at `/opt/tika-server.jar` (`/opt` is where Lambda unpacks layers
 ## License
 
 MIT © [Shelf](https://shelf.io)
+
+import json
+import io
+import os
+from tika import parser
+
+def extract_text(file):
+    parsed = parser.from_file(file)
+    parsed_text = parsed['content']
+    parsed_text = parsed_text.lower()
+    return parsed_text
+
+
+def lambda_handler(event, context):
+    file_name_with_extension = "https://wayback.archive-it.org/16107/20210314174656/http://blog.wellcomelibrary.org/wp-content/uploads/2015/12/Archive-OCR-1.jpg"
+    text = extract_text(file_name_with_extension)
+    print(text)
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
+
